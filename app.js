@@ -4,7 +4,6 @@ var logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const productRouter = require('./routes/product');
 
@@ -25,7 +24,6 @@ mongoose.connect('mongodb://localhost:27017/Shopping-API').then(() => {
 });
   
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter)
 
