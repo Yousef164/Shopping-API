@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const db = require("../models");
 const { jwtSecret } = require("../config/env");
@@ -8,13 +9,14 @@ const { sendVerificationEmail } = require("../utils/mailer");
 class userService {
   static async signup(userData) {
     try {
-      const { username, email, password } = userData;
+      const { username, email, age, password } = userData;
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const token = await crypto.randomBytes(32).toString("hex");
       const newUser = await db.User.create({
         username,
         email,
+        age,
         password: hashedPassword,
         emailToken: token,
       });
@@ -50,7 +52,7 @@ class userService {
         jwtSecret,
         { expiresIn: "1h" }
       );
-      
+
       return { status: 200, token: token };
     } catch (error) {
       throw error;
@@ -58,4 +60,4 @@ class userService {
   }
 }
 
-module.exports = new userService();
+module.exports = userService;
