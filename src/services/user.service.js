@@ -38,7 +38,7 @@ class userService {
       const { email, password } = loginData;
       const user = await db.User.findOne({ email: email });
 
-      if (user.verifyEmail === false || !user) {
+      if (!user || user.verifyEmail === false) {
         throw { status: 401, message: "This user is not exist" };
       }
 
