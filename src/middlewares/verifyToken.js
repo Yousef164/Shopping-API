@@ -1,19 +1,32 @@
 const jwt = require("jsonwebtoken");
-
 const { jwtSecret } = require("../config/env");
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"].split(" ")[1];
-  if (!token) {
-    throw res.status(401).json({ message: "No token provided" });
-  }
-
-  jwt.verify(token, jwtSecret, (err, decoded) => {
-    if (err) {
-      throw res.status(401).json({ message: "Failed to authenticate token" });
+  try {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      return res.status(401).json({ message: "No token provided" });
     }
-    return decoded;
-  });
+
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Token malformed" });
+    }
+
+    jwt.verify(token, jwtSecret, (err, decoded) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({ message: "Failed to authenticate token" });
+      }
+
+      req.user = decoded;
+      next();
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 module.exports = verifyToken;

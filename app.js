@@ -1,4 +1,3 @@
-var createError = require("http-errors");
 var express = require("express");
 var logger = require("morgan");
 const path = require("path");
@@ -25,6 +24,7 @@ app.use(express.static(path.join(__dirname, "/src/productImages")));
 app.use("/users", routes.user);
 app.use("/orders", routes.order);
 app.use("/products", routes.product);
+app.use("/verify-email", routes.verifyEmail);
 
 app.use(errorHandler)
 
