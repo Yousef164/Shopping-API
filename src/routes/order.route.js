@@ -8,3 +8,5 @@ router
   .get("/:id", verifyToken, orderController.getOrderById)
   .post("/", verifyToken, orderController.createOrder)
   .delete("/:id", verifyToken, orderController.deleteOrder);
+
+module.exports = router;
