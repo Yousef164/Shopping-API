@@ -9,7 +9,9 @@ const orderSchema = mongoose.Schema({
     },
 
     product: {
-        type: Array
+        type: Array,
+        ref: "Product",
+        required: true
     }
 });
 

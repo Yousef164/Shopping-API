@@ -20,7 +20,7 @@ class OrderService {
 
   static async createOrder(orderData) {
     try {
-      const newOrder = await db.Order.create(orderData);
+      const newOrder = await db.Order(orderData).save();
       return { message: "Order created successfully", order: newOrder };
     } catch (error) {
       throw error;
