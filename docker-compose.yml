@@ -12,6 +12,11 @@ services:
       - mongo_data:/data/db
     networks:
       - app_network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mongo-express:
     image: mongo-express
@@ -22,35 +27,47 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: 1234
-      ME_CONFIG_BASICAUTH_ENABLED: true
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_URL: mongodb://root:1234@mongo:27017/?authSource=admin
     depends_on:
       - mongo
     networks:
       - app_network
-
-  my_app:
-    image: node:22
-    container_name: my_app
-    user: "node"
+  minio:
+    image: minio/minio
+    container_name: minio
     restart: always
-    working_dir: /app
-    volumes:
-      - .:/app
     ports:
-      - "3000:3000"
+      - "9000:9000"
+      - "9001:9001"
     environment:
-      - NODE_ENV=production
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - app_network
+
+  backend:
+    build: .
+    container_name: backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: mongodb://root:1234@mongo:27017/mydb?authSource=admin
     depends_on:
-      - mongo
-    command: >
-      sh -c "npx wait-port mongo:27017 && node app.js"
+      mongo:
+        condition: service_healthy
+      minio:
+        condition: service_started
     networks:
       - app_network
 
 volumes:
   mongo_data:
+  minio_data:
 
 networks:
   app_network:

@@ -1,5 +1,3 @@
-const { urlApp, jwtSecret } = require("../../../Educational_app/src/config/env");
-
 require("dotenv").config();
 
 module.exports = {
