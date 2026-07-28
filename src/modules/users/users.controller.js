@@ -1,6 +1,6 @@
-const userService = require("../services/user.service");
+import userService from "./user.service.js";
 
-exports.signup = async (req, res, next) => {
+export const signup = async (req, res, next) => {
   try {
     const result = await userService.signup(req.body);
     return res.status(result.status).json({ message: result.message });
@@ -9,7 +9,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.login = async (req, res, next) => {
+export const login = async (req, res, next) => {
   try {
     const result = await userService.login(req.body);
     return res.status(result.status).json({ token: result.token });
@@ -17,3 +17,5 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+export default { signup, login };

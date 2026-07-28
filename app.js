@@ -1,18 +1,19 @@
-var express = require("express");
-var logger = require("morgan");
-const path = require("path");
-const cors = require("cors");
+import express from "express";
+import logger from "morgan";
+import path from "path";
+import cors from "cors";
+import { fileURLToPath } from "url";
 
-const { port } = require("./src/config/env");
-const connectDB = require("./src/config/db_connection");
+import { port } from "./src/config/env.js";
+import connectDB from "./src/config/db_connection.js";
+import errorHandler from "./src/middlewares/errorHandler.js";
+import modules from "./src/modules/index.js";
 
-const errorHandler = require("./src/middlewares/errorHandler")
-const routes = require("./src/routes");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 connectDB();
 const app = express();
-
-
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -20,12 +21,11 @@ app.use(express.json());
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "/src/productImages")));
 
+app.use("/users", modules.users);
+app.use("/orders", modules.orders);
+app.use("/products", modules.products);
+app.use("/verify-email", modules.verifyEmail);
 
-app.use("/users", routes.user);
-app.use("/orders", routes.order);
-app.use("/products", routes.product);
-app.use("/verify-email", routes.verifyEmail);
-
-app.use(errorHandler)
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`litsen in port ${port}`));

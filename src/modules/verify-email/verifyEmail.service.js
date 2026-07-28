@@ -1,4 +1,4 @@
-const db = require("../models");
+import db from "../../models/index.js";
 
 const verifyEmail = async (token) => {
   if (!token) {
@@ -17,4 +17,4 @@ const verifyEmail = async (token) => {
   return "✅ Email verified successfully!";
 };
 
-module.exports = { verifyEmail };
+export default { verifyEmail };

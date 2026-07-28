@@ -1,13 +1,12 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 
-module.exports = {
-    port: process.env.PORT || 5000,
+dotenv.config();
 
-    mongoURL: process.env.MONGO_URL,
+export const port = process.env.PORT || 5000;
+export const mongoURL = process.env.MONGO_URL;
+export const jwtSecret = process.env.JWT_SECRET;
+export const emailApp = process.env.EMAIL_APP;
+export const passwordApp = process.env.PASSWORD_APP;
+export const urlApp = process.env.URL_APP;
 
-    jwtSecret: process.env.JWT_SECRET,
-
-    emailApp: process.env.EMAIL_APP,
-    passwordApp: process.env.PASSWORD_APP,
-    urlApp: process.env.URL_APP
-}
+export default { port, mongoURL, jwtSecret, emailApp, passwordApp, urlApp };

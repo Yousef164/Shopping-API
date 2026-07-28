@@ -1,10 +1,10 @@
-const productService = require("../services/product.service");
+import productService from "./product.service.js";
 
-exports.getAllProducts = async (req, res, next) => {
+export const getAllProducts = async (req, res, next) => {
   try {
     const products = await productService.getAllProducts(
       req.query.page,
-      req.query.limit
+      req.query.limit,
     );
     return res.status(200).json(products);
   } catch (error) {
@@ -12,7 +12,7 @@ exports.getAllProducts = async (req, res, next) => {
   }
 };
 
-exports.getProductById = async (req, res, next) => {
+export const getProductById = async (req, res, next) => {
   try {
     const product = await productService.getProductById(req.params.id);
     return res.status(200).json(product);
@@ -21,7 +21,7 @@ exports.getProductById = async (req, res, next) => {
   }
 };
 
-exports.createProduct = async (req, res, next) => {
+export const createProduct = async (req, res, next) => {
   try {
     const newProduct = await productService.createProduct(req.body);
     return res.status(201).json(newProduct);
@@ -30,11 +30,11 @@ exports.createProduct = async (req, res, next) => {
   }
 };
 
-exports.updateProduct = async (req, res, next) => {
+export const updateProduct = async (req, res, next) => {
   try {
     const updatedProduct = await productService.updateProduct(
       req.params.id,
-      req.body
+      req.body,
     );
     return res.status(200).json(updatedProduct);
   } catch (error) {
@@ -42,11 +42,19 @@ exports.updateProduct = async (req, res, next) => {
   }
 };
 
-exports.deleteProduct = async (req, res, next) => {
+export const deleteProduct = async (req, res, next) => {
   try {
     const deletedProduct = await productService.deleteProduct(req.params.id);
     return res.status(200).json(deletedProduct);
   } catch (error) {
     next(error);
   }
+};
+
+export default {
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 };

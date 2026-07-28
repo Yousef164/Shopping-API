@@ -1,5 +1,4 @@
-const { deleteOrder } = require("../controllers/order.controller");
-const db = require("../models");
+import db from "../../models/index.js";
 
 class OrderService {
   static async getAllOrders(userId) {
@@ -37,4 +36,4 @@ class OrderService {
   }
 }
 
-module.exports = OrderService;
+export default OrderService;

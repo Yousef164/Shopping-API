@@ -1,5 +1,5 @@
-const nodemailer = require("nodemailer");
-const { emailApp, passwordApp, urlApp } = require("../config/env");
+import nodemailer from "nodemailer";
+import { emailApp, passwordApp, urlApp } from "../config/env.js";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendVerificationEmail(userEmail, username, token) {
+export async function sendVerificationEmail(userEmail, username, token) {
   const link = `${urlApp}/verify-email?token=${token}`;
 
   const mailOptions = {
@@ -33,4 +33,4 @@ async function sendVerificationEmail(userEmail, username, token) {
   await transporter.sendMail(mailOptions);
 }
 
-module.exports = { sendVerificationEmail };
+export default { sendVerificationEmail };

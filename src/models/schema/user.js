@@ -1,5 +1,4 @@
-const e = require("express");
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
   username: {
@@ -23,7 +22,7 @@ const userSchema = mongoose.Schema({
   },
   emailToken: {
     type: String,
-    default: null
+    default: null,
   },
   emailVerified: {
     type: Boolean,
@@ -31,4 +30,4 @@ const userSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

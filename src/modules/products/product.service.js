@@ -1,6 +1,6 @@
-const db = require("../models");
+import db from "../../models/index.js";
 
-class productService {
+class ProductService {
   static async getAllProducts(page = 1, limit = 10) {
     try {
       page = parseInt(page);
@@ -59,4 +59,4 @@ class productService {
   }
 }
 
-module.exports = productService;
+export default ProductService;

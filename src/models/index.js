@@ -1,7 +1,7 @@
-const db = {};
+import User from "./schema/user.js";
+import Product from "./schema/product.js";
+import Order from "./schema/order.js";
 
-db.User = require("./schema/user");
-db.Product = require("./schema/product");
-db.Order = require("./schema/order");
+const db = { User, Product, Order };
 
-module.exports = db;
+export default db;

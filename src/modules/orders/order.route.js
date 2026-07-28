@@ -1,7 +1,9 @@
-const router = require("express").Router();
+import express from "express";
 
-const orderController = require("../controllers/order.controller");
-const verifyToken = require("../middlewares/verifyToken");
+import orderController from "./order.controller.js";
+import verifyToken from "../../middlewares/verifyToken.js";
+
+const router = express.Router();
 
 router
   .get("/", verifyToken, orderController.getAllOrders)
@@ -9,4 +11,4 @@ router
   .post("/", verifyToken, orderController.createOrder)
   .delete("/:id", verifyToken, orderController.deleteOrder);
 
-module.exports = router;
+export default router;
