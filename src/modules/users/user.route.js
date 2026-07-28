@@ -1,6 +1,6 @@
 import express from "express";
 
-import { signupValidation } from "../../validators/authValidation.js";
+import { signupValidation } from "../../utils/validators/authValidation.js";
 import validationHandler from "../../middlewares/validationHandler.js";
 import userController from "./users.controller.js";
 
